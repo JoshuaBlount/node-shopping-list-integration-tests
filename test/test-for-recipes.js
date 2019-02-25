@@ -33,7 +33,7 @@ describe('Recipes', function(){
 
       res.body.forEach(function(item){
         item.should.be.a('object');
-        item.should.incluse.keys('id','ingredients','name');
+        item.should.include.keys('id','ingredients','name');
       });
     });
   });
@@ -50,7 +50,7 @@ describe('Recipes', function(){
         res.body.should.be.a('object');
         res.body.name.should.equal(newRecipe.name);
         res.body.ingredients.should.be.a('array');
-        res.body.ingredients.should.include.members(newRecipe,ingredients);
+        res.body.ingredients.should.include.members(newRecipe.ingredients);
     });
   });
 
@@ -63,13 +63,13 @@ describe('Recipes', function(){
   .get('/recipes')
   .then(function(res){
     updateRecipes.id = res.body[0].id;
-
     return chai.request(app)
-    put(`/recipes/${updateRecipes.id}`)
-    .send(updateRecipes);
+      .put(`/recipes/${updateRecipes.id}`)
+      .send(updateRecipes);
   })
     .then(function(res){
-    res.should.have.status(204)
+      // console.log(res, "FIND THIS MESSAGE");
+      res.should.have.status(204)
     });
   });
 
